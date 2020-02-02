@@ -56,17 +56,17 @@ OCV = ../deps/lib/$(TARGET)/opencv
 
 ZLIB =
 ifneq ($(TARGET_SYS), linux)
-ZLIB = $(OCV)/share/OpenCV/3rdparty/lib/libzlib.a
+ZLIB = $(OCV)/lib/opencv4/3rdparty/libzlib.a
 endif
-OCV_AUX = $(OCV)/share/OpenCV/3rdparty/lib/libtbb.a $(ZLIB)
+OCV_AUX = $(OCV)/lib/opencv4/3rdparty/libtbb.a  $(ZLIB)
 
-OCV_CFLAGS = -I$(OCV)/include
+OCV_CFLAGS = -I$(OCV)/include/opencv4/
 OCV_LIBS = $(addprefix $(OCV)/lib/libopencv_,photo.a imgproc.a core.a) $(OCV_AUX)
 
 TIFF_INC1 = ../deps/src/opencv/3rdparty/libtiff
 TIFF_INC2 = ../deps/src/$(TARGET)/opencv_build/3rdparty/libtiff
 TIFF_CFLAGS = -I$(TIFF_INC1) -I$(TIFF_INC2)
-TIFF_LIBS = $(OCV)/share/OpenCV/3rdparty/lib/liblibtiff.a $(ZLIB)
+TIFF_LIBS = $(OCV)/lib/opencv4/3rdparty/liblibtiff.a $(ZLIB)
 
 CFLAGS = $(CFBASE) $(TIFF_CFLAGS) -g -O3 -Wall $(C)
 CXXFLAGS = $(CFLAGS) $(OCV_CFLAGS) -fvisibility-inlines-hidden

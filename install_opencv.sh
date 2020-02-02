@@ -33,8 +33,10 @@ OCV_FLAGS="-D CMAKE_BUILD_TYPE=RELEASE -D BUILD_SHARED_LIBS=OFF \
            -D WITH_PNG=OFF -D WITH_WEBP=OFF -D WITH_OPENEXR=OFF \
            -D BUILD_TESTS=OFF -D BUILD_PERF_TESTS=OFF -D BUILD_DOCS=OFF \
            -D BUILD_opencv_python2=OFF -D BUILD_opencv_python3=OFF \
-           -D BUILD_opencv_java=OFF -D BUILD_opencv_apps=OFF"
-OPENCV_EXTRA_FLAGS=
+           -D BUILD_opencv_java=OFF -D BUILD_opencv_apps=OFF \
+           -D WITH_PROTOBUF=OFF -D WITH_ITT=ON -D BUILD_ITT=ON \
+           -D ENABLE_SSE41=ON -D ENABLE_SSE42=ON -D ENABLE_AVX=ON -D ENABLE_AVX2=ON -D TEST_BIG_ENDIAN=OFF"
+OPENCV_EXTRA_FLAGS="-stdlib=libc++"
 
 if [[ $TARGET =~ ^osx- ]]; then
     if [ `uname -s` = Darwin ]; then
