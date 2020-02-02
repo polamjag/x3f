@@ -40,7 +40,7 @@ else
 ifeq (osx, $(TARGET_SYS))
   EXE =
   CFBASE = $(SDKFLAGS) -Wno-pragmas
-  LDBASE = $(SDKFLAGS) -Wl,-dead_strip_dylibs -liconv -framework OpenCL
+  LDBASE = $(SDKFLAGS) -Wl,-dead_strip_dylibs -liconv -framework OpenCL -framework Accelerate
   AUXOBJS =
 else
   $(warning WARNING: Unknown target: $(TARGET))
