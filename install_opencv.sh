@@ -39,7 +39,7 @@ OPENCV_EXTRA_FLAGS=
 if [[ $TARGET =~ ^osx- ]]; then
     if [ `uname -s` = Darwin ]; then
 	OPENCV_EXTRA_FLAGS="$OPENCV_EXTRA_FLAGS \
-                            -isysroot /Developer/SDKs/MacOSX10.7.sdk"
+                            -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk"
     else
 	# APPLE and UNIX are not defined automatically when cross-compiling
 	OCV_FLAGS="$OCV_FLAGS -D APPLE=1 -D UNIX=1"
@@ -56,7 +56,7 @@ if [[ $TARGET =~ ^osx- ]]; then
 	ln -fs $TOOL_PATH $SRC/cmake_workaround/install_name_tool || exit 1
 	PATH="$PATH:$SRC/cmake_workaround"
     fi
-    OPENCV_EXTRA_FLAGS="$OPENCV_EXTRA_FLAGS -mmacosx-version-min=10.7 \
+    OPENCV_EXTRA_FLAGS="$OPENCV_EXTRA_FLAGS -mmacosx-version-min=10.9 \
                         -arch `echo $TARGET | sed 's/^osx-//'` -Wno-pragmas"
 fi
 
