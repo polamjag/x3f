@@ -40,7 +40,7 @@ else
 ifeq (osx, $(TARGET_SYS))
   EXE =
   CFBASE = $(SDKFLAGS) -Wno-pragmas
-  LDBASE = $(SDKFLAGS) -Wl,-dead_strip_dylibs -liconv -framework OpenCL
+  LDBASE = $(SDKFLAGS) -Wl,-dead_strip_dylibs -liconv -framework OpenCL -framework Accelerate
   AUXOBJS =
 else
   $(warning WARNING: Unknown target: $(TARGET))
@@ -56,20 +56,22 @@ OCV = ../deps/lib/$(TARGET)/opencv
 
 ZLIB =
 ifneq ($(TARGET_SYS), linux)
-ZLIB = $(OCV)/share/OpenCV/3rdparty/lib/libzlib.a
+ZLIB = $(OCV)/lib/opencv4/3rdparty/libzlib.a
 endif
-OCV_AUX = $(OCV)/share/OpenCV/3rdparty/lib/libtbb.a $(ZLIB)
+OCV_AUX = $(OCV)/lib/opencv4/3rdparty/libtbb.a  $(ZLIB)
 
-OCV_CFLAGS = -I$(OCV)/include
+OCV_CFLAGS = -I$(OCV)/include/opencv4/
 OCV_LIBS = $(addprefix $(OCV)/lib/libopencv_,photo.a imgproc.a core.a) $(OCV_AUX)
 
 TIFF_INC1 = ../deps/src/opencv/3rdparty/libtiff
 TIFF_INC2 = ../deps/src/$(TARGET)/opencv_build/3rdparty/libtiff
 TIFF_CFLAGS = -I$(TIFF_INC1) -I$(TIFF_INC2)
-TIFF_LIBS = $(OCV)/share/OpenCV/3rdparty/lib/liblibtiff.a $(ZLIB)
+TIFF_LIBS = $(OCV)/lib/opencv4/3rdparty/liblibtiff.a $(ZLIB)
+
+ITT_LIBS = $(OCV)/lib/opencv4/3rdparty/libittnotify.a
 
 CFLAGS = $(CFBASE) $(TIFF_CFLAGS) -g -O3 -Wall $(C)
-CXXFLAGS = $(CFLAGS) $(OCV_CFLAGS) -fvisibility-inlines-hidden
+CXXFLAGS = $(CFLAGS) $(OCV_CFLAGS) -fvisibility-inlines-hidden -stdlib=libc++ -std=c++11
 LDFLAGS = $(LDBASE) $(L)
 
 BINDIR = ../bin/$(TARGET)
@@ -85,7 +87,7 @@ all: $(addprefix $(BINDIR)/,$(PROGS))
 
 ifeq ($(TARGET), osx-universal)
 
-$(BINDIR)/%: ../bin/osx-x86_64/% ../bin/osx-i386/% | $(BINDIR)
+$(BINDIR)/%: ../bin/osx-x86_64/% | $(BINDIR)
 	$(LIPO) -create -output $@ $^
 
 .PHONY: force
@@ -94,15 +96,11 @@ $(BINDIR)/%: ../bin/osx-x86_64/% ../bin/osx-i386/% | $(BINDIR)
 ../bin/osx-x86_64/%: force
 	$(MAKE) TARGET=osx-x86_64 $@
 
-.SECONDARY: $(addprefix ../bin/osx-i386/,$(PROGS))
-../bin/osx-i386/%: force
-	$(MAKE) TARGET=osx-i386 $@
-
 else
 
 -include $(BINDIR)/*.d
 
-$(BINDIR)/x3f_extract$(EXE): $(addprefix $(BINDIR)/,x3f_extract.o $(VERSION_O) x3f_io.o x3f_process.o x3f_meta.o x3f_image.o x3f_spatial_gain.o x3f_output_dng.o x3f_output_tiff.o x3f_output_ppm.o x3f_histogram.o x3f_print_meta.o x3f_dump.o x3f_matrix.o x3f_dngtags.o x3f_denoise_utils.o x3f_denoise_aniso.o x3f_denoise.o x3f_printf.o $(AUXOBJS)) $(OCV_LIBS) $(TIFF_LIBS)
+$(BINDIR)/x3f_extract$(EXE): $(addprefix $(BINDIR)/,x3f_extract.o $(VERSION_O) x3f_io.o x3f_process.o x3f_meta.o x3f_image.o x3f_spatial_gain.o x3f_output_dng.o x3f_output_tiff.o x3f_output_ppm.o x3f_histogram.o x3f_print_meta.o x3f_dump.o x3f_matrix.o x3f_dngtags.o x3f_denoise_utils.o x3f_denoise_aniso.o x3f_denoise.o x3f_printf.o $(AUXOBJS)) $(OCV_LIBS) $(TIFF_LIBS) $(ITT_LIBS)
 	$(CXX) $^ -o $@ $(LDFLAGS) -lm
 
 $(BINDIR)/x3f_io_test$(EXE): $(addprefix $(BINDIR)/,x3f_io_test.o $(VERSION_O) x3f_io.o x3f_print_meta.o x3f_printf.o $(AUXOBJS))
@@ -135,7 +133,7 @@ DIST_DIR = ../dist/$(DIST)
 DIST_TGZ = ../dist/$(DIST).tar.gz
 DIST_ZIP = ../dist/$(DIST).zip
 DIST_FILES = doc/readme.txt doc/copyright.txt bin/x3f_extract$(EXE)
-TARFLAGS = --owner=root --group=root
+TARFLAGS = 
 
 ifeq ($(TARGET_SYS), windows)
 dist: $(DIST_ZIP)

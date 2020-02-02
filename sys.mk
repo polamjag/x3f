@@ -65,14 +65,14 @@ ifeq ($(TARGET), osx-x86_64)
   CC = x86_64-apple-darwin11-gcc
   CXX = x86_64-apple-darwin11-g++
   CMAKE_TOOLCHAIN = x86_64-apple-darwin11.cmake
-  SDKFLAGS = -mmacosx-version-min=10.7 -arch x86_64
+  SDKFLAGS = -mmacosx-version-min=10.9 -arch x86_64
   STRIP = x86_64-apple-darwin11-strip
 else
 ifeq ($(TARGET), osx-i386)
   CC = i386-apple-darwin11-gcc
   CXX = i386-apple-darwin11-g++
   CMAKE_TOOLCHAIN = i386-apple-darwin11.cmake
-  SDKFLAGS = -mmacosx-version-min=10.7 -arch i386
+  SDKFLAGS = -mmacosx-version-min=10.9 -arch i386
   STRIP = i386-apple-darwin11-strip
 else
 ifeq ($(TARGET), osx-universal)
@@ -88,7 +88,7 @@ ifeq ($(HOST_SYS), osx)
 ifeq ($(TARGET_SYS), osx)
   CC = gcc
   CXX = g++
-  SDKFLAGS = -isysroot /Developer/SDKs/MacOSX10.7.sdk -mmacosx-version-min=10.7 -arch $(TARGET_CPU)
+  SDKFLAGS = -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -mmacosx-version-min=10.9 -arch $(TARGET_CPU)
 endif
 endif
 endif

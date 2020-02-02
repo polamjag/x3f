@@ -34,13 +34,10 @@ endif
 
 ifeq ($(TARGET), osx-universal)
 
-all dist: deps/lib/osx-x86_64/opencv/.success deps/lib/osx-i386/opencv/.success
+all dist: deps/lib/osx-x86_64/opencv/.success
 
 deps/lib/osx-x86_64/opencv/.success:
 	$(MAKE) TARGET=osx-x86_64 $@
-
-deps/lib/osx-i386/opencv/.success:
-	$(MAKE) TARGET=osx-i386 $@
 
 else
 

@@ -24,8 +24,8 @@ OCV_SRC=$SRC/opencv
 OCV_BLD=$SRC/$TARGET/opencv_build
 OCV_LIB=$LIB/opencv
 
-OCV_URL=https://github.com/erikrk/opencv.git
-OCV_HASH=01d3df0d00e5c802108b90bd2dedb50e9a9ecacf
+OCV_URL=https://github.com/opencv/opencv.git
+OCV_HASH=master
 
 OCV_FLAGS="-D CMAKE_BUILD_TYPE=RELEASE -D BUILD_SHARED_LIBS=OFF \
            -D WITH_IPP=OFF -D WITH_TBB=ON -D BUILD_TBB=ON \
@@ -33,13 +33,15 @@ OCV_FLAGS="-D CMAKE_BUILD_TYPE=RELEASE -D BUILD_SHARED_LIBS=OFF \
            -D WITH_PNG=OFF -D WITH_WEBP=OFF -D WITH_OPENEXR=OFF \
            -D BUILD_TESTS=OFF -D BUILD_PERF_TESTS=OFF -D BUILD_DOCS=OFF \
            -D BUILD_opencv_python2=OFF -D BUILD_opencv_python3=OFF \
-           -D BUILD_opencv_java=OFF -D BUILD_opencv_apps=OFF"
-OPENCV_EXTRA_FLAGS=
+           -D BUILD_opencv_java=OFF -D BUILD_opencv_apps=OFF \
+           -D WITH_PROTOBUF=OFF -D WITH_ITT=ON -D BUILD_ITT=ON \
+           -D ENABLE_SSE41=ON -D ENABLE_SSE42=ON -D ENABLE_AVX=ON -D ENABLE_AVX2=ON -D TEST_BIG_ENDIAN=OFF"
+OPENCV_EXTRA_FLAGS="-stdlib=libc++"
 
 if [[ $TARGET =~ ^osx- ]]; then
     if [ `uname -s` = Darwin ]; then
 	OPENCV_EXTRA_FLAGS="$OPENCV_EXTRA_FLAGS \
-                            -isysroot /Developer/SDKs/MacOSX10.7.sdk"
+                            -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk"
     else
 	# APPLE and UNIX are not defined automatically when cross-compiling
 	OCV_FLAGS="$OCV_FLAGS -D APPLE=1 -D UNIX=1"
@@ -56,7 +58,7 @@ if [[ $TARGET =~ ^osx- ]]; then
 	ln -fs $TOOL_PATH $SRC/cmake_workaround/install_name_tool || exit 1
 	PATH="$PATH:$SRC/cmake_workaround"
     fi
-    OPENCV_EXTRA_FLAGS="$OPENCV_EXTRA_FLAGS -mmacosx-version-min=10.7 \
+    OPENCV_EXTRA_FLAGS="$OPENCV_EXTRA_FLAGS -mmacosx-version-min=10.9 \
                         -arch `echo $TARGET | sed 's/^osx-//'` -Wno-pragmas"
 fi
 
