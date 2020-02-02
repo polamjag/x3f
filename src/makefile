@@ -133,7 +133,7 @@ DIST_DIR = ../dist/$(DIST)
 DIST_TGZ = ../dist/$(DIST).tar.gz
 DIST_ZIP = ../dist/$(DIST).zip
 DIST_FILES = doc/readme.txt doc/copyright.txt bin/x3f_extract$(EXE)
-TARFLAGS = --owner=root --group=root
+TARFLAGS = 
 
 ifeq ($(TARGET_SYS), windows)
 dist: $(DIST_ZIP)
