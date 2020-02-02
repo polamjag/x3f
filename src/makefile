@@ -69,7 +69,7 @@ TIFF_CFLAGS = -I$(TIFF_INC1) -I$(TIFF_INC2)
 TIFF_LIBS = $(OCV)/lib/opencv4/3rdparty/liblibtiff.a $(ZLIB)
 
 CFLAGS = $(CFBASE) $(TIFF_CFLAGS) -g -O3 -Wall $(C)
-CXXFLAGS = $(CFLAGS) $(OCV_CFLAGS) -fvisibility-inlines-hidden
+CXXFLAGS = $(CFLAGS) $(OCV_CFLAGS) -fvisibility-inlines-hidden -stdlib=libc++ -std=c++11
 LDFLAGS = $(LDBASE) $(L)
 
 BINDIR = ../bin/$(TARGET)
