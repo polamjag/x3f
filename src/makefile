@@ -85,7 +85,7 @@ all: $(addprefix $(BINDIR)/,$(PROGS))
 
 ifeq ($(TARGET), osx-universal)
 
-$(BINDIR)/%: ../bin/osx-x86_64/% ../bin/osx-i386/% | $(BINDIR)
+$(BINDIR)/%: ../bin/osx-x86_64/% | $(BINDIR)
 	$(LIPO) -create -output $@ $^
 
 .PHONY: force
@@ -93,10 +93,6 @@ $(BINDIR)/%: ../bin/osx-x86_64/% ../bin/osx-i386/% | $(BINDIR)
 .SECONDARY: $(addprefix ../bin/osx-x86_64/,$(PROGS))
 ../bin/osx-x86_64/%: force
 	$(MAKE) TARGET=osx-x86_64 $@
-
-.SECONDARY: $(addprefix ../bin/osx-i386/,$(PROGS))
-../bin/osx-i386/%: force
-	$(MAKE) TARGET=osx-i386 $@
 
 else
 
