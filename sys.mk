@@ -44,8 +44,8 @@ STRIP = strip
 INSTFLAGS =
 
 ifeq ($(HOST), $(TARGET))
-  CC = gcc
-  CXX = g++
+  CC = clang
+  CXX = clang++
 ifeq ($(HOST_SYS), osx)
   LIPO = lipo
 endif
