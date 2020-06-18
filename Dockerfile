@@ -12,4 +12,8 @@ RUN pip3 install virtualenv
 COPY . /x3f/
 RUN rm -rf /x3f/deps
 
+WORKDIR /x3f/
+
+RUN make all
+
 CMD [ "/bin/bash" ]
